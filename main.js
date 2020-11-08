@@ -1,9 +1,13 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron')
+const Board = require('./src/board')
+
+let board = new Board(40)
 
 function createWindow () {
+
     const win = new BrowserWindow({
-        width: 1200,
-        height: 600,
+        width: board.getBoardSize() * board.getBoxSize(),
+        height: board.getBoardSize() * board.getBoxSize(),
         webPreferences: {
             nodeIntegration: true
         }
