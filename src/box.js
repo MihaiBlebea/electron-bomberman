@@ -2,9 +2,11 @@ class Box
 {
     _contains = []
 
-    constructor() 
+    constructor(contains) 
     {
-        this._contains = []
+        if (Array.isArray(contains) === true) {
+            this._contains = contains
+        }
     }
 
     addEntity(entity) 

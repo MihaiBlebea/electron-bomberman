@@ -1,8 +1,10 @@
-const Box = require('./box')
+const Box          = require('./Box')
+const BrickWall    = require('./BrickWall')
+const ConcreteWall = require('./ConcreteWall')
 
 class Board 
 {
-    _boxSize = 20
+    _boxSize = 40
 
     _boardSize = 20
 
@@ -13,6 +15,8 @@ class Board
         if (boardSize !== undefined) {
             this._boardSize = boardSize
         }
+
+        this.new()
     }
 
     new() 
@@ -22,7 +26,13 @@ class Board
                 if (this._board[x] === undefined) {
                     this._board[x] = {}
                 }
-                this._board[x][y] = new Box()
+
+                let box = new Box()
+                if (x === 0 || y === 0 || x === this._boardSize - 1 || y === this._boardSize - 1) {
+                    box.addEntity(new ConcreteWall())
+                }
+
+                this._board[x][y] = box
             }
         }
     }
@@ -58,15 +68,20 @@ class Board
         
         for (let x = 0; x < this._boardSize; x++) {
             for (let y = 0; y < this._boardSize; y++) {
-                if (x % 2 === 0 && y % 2 === 0) {
-                    context.fillStyle = '#000'
-                } else {
-                    context.fillStyle = '#fff'
-                }
-
                 let startX = x * this._boxSize
                 let startY = y * this._boxSize
+                context.font = "10px Georgia"
+
+                context.fillStyle = '#fff'
+
+                if (this._board[x][y].hasEntity(new ConcreteWall())) {
+                    context.fillStyle = this._board[x][y]._contains[0].color
+                }
+
                 context.fillRect(startX, startY, startX + this._boxSize, startY + this._boxSize)
+
+                context.fillStyle = '#000'
+                context.fillText(`${x}-${y}`, startX + 10, startY + 10)
             }
         }
 

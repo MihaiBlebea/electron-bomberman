@@ -1,13 +1,13 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron')
-const Board = require('./src/board')
+const Board = require('./src/Board')
 
-let board = new Board(40)
+let board = new Board(20)
 
 function createWindow () {
 
     const win = new BrowserWindow({
         width: board.getBoardSize() * board.getBoxSize(),
-        height: board.getBoardSize() * board.getBoxSize(),
+        height: board.getBoardSize() * board.getBoxSize() + 25, // I think this is because of the top frame
         webPreferences: {
             nodeIntegration: true
         }
