@@ -14,6 +14,16 @@ class Box
         this._contains.push(entity)
     }
 
+    removeEntity(entityName)
+    {
+        console.log(entityName)
+        for (let i = 0; i < this._contains.length; i++) {
+            if (this._contains[i].constructor.name === entityName) {
+                this._contains.splice(i, 1)
+            }
+        }
+    }
+
     hasEntity(entity)
     {
         if (typeof entity !== 'object'|| entity === null) {
@@ -36,6 +46,10 @@ class Box
 
     hasAnyEntity(entityList)
     {
+        if (entityList === undefined) {
+            return this._contains.length > 0
+        }
+
         for(let i = 0; i < entityList.length; i++) {
             if(this.hasEntity(entityList[i]) === true) {
                 return true

@@ -1,14 +1,14 @@
 const Entity = require('./Entity')
 
-class Door extends Entity
+class Player extends Entity
 {
     constructor() {
         super()
         
-        this.canBeDestroyed = false
+        this.canBeDestroyed = true
         this.isDestroyed    = false
-        this.color          = 'blue'
+        this.color          = 'green'
     }
 }
 
-module.exports = Door
+module.exports = Player

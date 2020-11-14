@@ -2,6 +2,7 @@ const Box          = require('./Box')
 const BrickWall    = require('./BrickWall')
 const ConcreteWall = require('./ConcreteWall')
 const Door         = require('./Door')
+const Player       = require('./Player')
 
 class Board 
 {
@@ -10,6 +11,12 @@ class Board
     _boardSize = 20
 
     _board = {}
+
+    player_x = 1
+
+    player_y = 1
+
+    canvas = null
 
     constructor(boardSize)
     {
@@ -31,10 +38,14 @@ class Board
                 let box = new Box()
                 if (x === 0 || y === 0 || x === this._boardSize - 1 || y === this._boardSize - 1) {
                     box.addEntity(new ConcreteWall())
-                } 
+                }
                 
                 if (x % 2 === 0 && y % 2 == 0) {
                     box.addEntity(new ConcreteWall())
+                }
+
+                if (x === this.player_x && y === this.player_y) {
+                    box.addEntity(new Player())
                 }
 
                 this._board[x][y] = box
@@ -70,7 +81,7 @@ class Board
         let emptyBoxes = []
         for (let x = 0; x < this._boardSize; x++) {
             for (let y = 0; y < this._boardSize; y++) {
-                if (this._board[x][y].isEmpty()) {
+                if (this._board[x][y].isEmpty() && !['1-2', '2-1'].includes(`${x}-${y}`)) {
                     emptyBoxes.push({x, y})
                 }
             }
@@ -99,45 +110,89 @@ class Board
         return this._boxSize
     }
 
-    render(anchorElement)
+    move({x, y}) 
     {
-        let canvas = this._createCanvas()
-        anchorElement.appendChild(canvas)
+        this._board[this.player_x][this.player_y].removeEntity('Player')
+
+        this.player_x += x
+        this.player_y += y
+
+        this._board[this.player_x][this.player_y].addEntity(new Player())
     }
 
-    _createCanvas()
+    createCanvas(anchorElement)
     {
-        let canvas    = document.createElement("CANVAS")
-        canvas.width  = this._boxSize * this._boardSize
-        canvas.height = this._boxSize * this._boardSize
+        this.canvas        = document.createElement("CANVAS")
+        this.canvas.width  = this._boxSize * this._boardSize
+        this.canvas.height = this._boxSize * this._boardSize
 
-        let context = canvas.getContext('2d')
-        
+        // let context = canvas.getContext('2d')
+
+        this._render()
+
+        anchorElement.appendChild(this.canvas)
+    }
+
+    _render()
+    {
+        // let canvas    = document.createElement("CANVAS")
+        // canvas.width  = this._boxSize * this._boardSize
+        // canvas.height = this._boxSize * this._boardSize
+
+        // let context = canvas.getContext('2d')
+        let context = this.canvas.getContext('2d')
+
         for (let x = 0; x < this._boardSize; x++) {
             for (let y = 0; y < this._boardSize; y++) {
+                
+                context.fillStyle = "#FFF"
+
                 let startX = x * this._boxSize
                 let startY = y * this._boxSize
                 context.font = "10px Georgia"
 
-                context.fillStyle = '#fff'
-
-                if (this._board[x][y].hasAnyEntity([new ConcreteWall(), new BrickWall(), new Door()])) {
+                if (this._board[x][y].hasAnyEntity()) {
                     context.fillStyle = this._board[x][y]._contains[0].color
                 }
 
+                if (this._board[x][y].hasEntity(new Door())) {
+                    context.fillStyle = "blue"
+                }
+                
                 context.fillRect(startX, startY, startX + this._boxSize, startY + this._boxSize)
 
                 context.fillStyle = '#000'
+
                 context.fillText(`${x}-${y}`, startX + 10, startY + 10)
             }
         }
 
-        return canvas
+        return this.canvas
     }
 
-    update()
+    async update()
     {
+        while (true) {
+            // elementListener.addEventListener('keydown', (event)=>  {
+            //     // if(event.keyCode == 37) {
+            //     //     alert('Left was pressed');
+            //     // }
+            //     // else if(event.keyCode == 39) {
+            //     //     alert('Right was pressed');
+            //     // }
+            //     console.log(event.keyCode)
+            //     // await this._sleep(1000)
+            // })
+            this._render()
 
+            console.log("RUNNING LOOP")
+            await this._sleep(100)
+        }
+    }
+
+    _sleep(ms) 
+    {
+        return new Promise(resolve => setTimeout(resolve, ms))
     }
 }
 

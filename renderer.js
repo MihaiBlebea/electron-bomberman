@@ -31,5 +31,30 @@ board.genLevel()
 //     board.addEntity(new ConcreteWall(), i + 2,  i + 2)
 // }
 
-board.render(document.getElementById('frame'))
+board.createCanvas(document.getElementById('frame'))
+
+document.addEventListener('keydown', (event)=>  {
+    // if(event.keyCode == 37) {
+    //     alert('Left was pressed');
+    // }
+    // else if(event.keyCode == 39) {
+    //     alert('Right was pressed');
+    // }
+    switch (event.keyCode) {
+        case 37:
+            board.move({x: -1, y: 0})
+            break
+        case 38:
+            board.move({x: 0, y: -1})
+            break
+        case 39:
+            board.move({x: 1, y: 0})
+            break
+        case 40:
+            board.move({x: 0, y: 1})
+            break
+    }
+})
+
+board.update()
 
