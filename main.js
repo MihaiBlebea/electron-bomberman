@@ -1,9 +1,15 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron')
+const Board = require('./src/Board')
+
+let board = new Board(21)
 
 function createWindow () {
+
+    let boardSide = board.getBoardSize() * board.getBoxSize()
+
     const win = new BrowserWindow({
-        width: 1200,
-        height: 600,
+        width: boardSide,
+        height: boardSide + 25, // I think this is because of the top frame
         webPreferences: {
             nodeIntegration: true
         }
@@ -13,7 +19,7 @@ function createWindow () {
     win.webContents.openDevTools()
 
     // Show progress bar
-    win.setProgressBar(0.9)
+    // win.setProgressBar(0.9)
 
     // Handle key press event
     win.webContents.on('before-input-event', (event, input) => {
@@ -23,7 +29,7 @@ function createWindow () {
         //     event.preventDefault()
         // }
 
-        win.webContents.send('ping', input.key);
+        // win.webContents.send('ping', input.key);
     })
 }
 
