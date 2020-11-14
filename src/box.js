@@ -33,6 +33,17 @@ class Box
 
         return false
     }
+
+    hasAnyEntity(entityList)
+    {
+        for(let i = 0; i < entityList.length; i++) {
+            if(this.hasEntity(entityList[i]) === true) {
+                return true
+            }
+        }
+
+        return false
+    }
 }
 
 module.exports = Box

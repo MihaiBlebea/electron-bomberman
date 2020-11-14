@@ -7,6 +7,7 @@ class BrickWall extends Entity
 
         this.canBeDestroyed = true
         this.isDestroyed    = false
+        this.color          = 'red'
     }
 }
 

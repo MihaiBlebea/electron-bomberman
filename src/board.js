@@ -30,11 +30,20 @@ class Board
                 let box = new Box()
                 if (x === 0 || y === 0 || x === this._boardSize - 1 || y === this._boardSize - 1) {
                     box.addEntity(new ConcreteWall())
+                } 
+                
+                if (x % 2 === 0 && y % 2 == 0) {
+                    box.addEntity(new ConcreteWall())
                 }
 
                 this._board[x][y] = box
             }
         }
+    }
+
+    addEntity(entity, x, y)
+    {
+        this._board[x][y].addEntity(entity)
     }
 
     getBoard()
@@ -74,7 +83,7 @@ class Board
 
                 context.fillStyle = '#fff'
 
-                if (this._board[x][y].hasEntity(new ConcreteWall())) {
+                if (this._board[x][y].hasAnyEntity([new ConcreteWall(), new BrickWall()])) {
                     context.fillStyle = this._board[x][y]._contains[0].color
                 }
 

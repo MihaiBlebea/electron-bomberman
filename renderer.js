@@ -1,5 +1,7 @@
 const { ipcRenderer } = require('electron')
 const Board = require('./src/Board')
+const BrickWall = require('./src/BrickWall')
+const ConcreteWall = require('./src/ConcreteWall')
 
 const myNotification = new Notification('Title', {
     body: 'Notification from the Renderer process'
@@ -21,6 +23,12 @@ ipcRenderer.on('ping', (event, message) => {
     console.log(message) // Prints 'whoooooooh!'
 })
 
-let board = new Board(20)
+let board = new Board(21)
+
+// Put bricks inside it
+// for (let i = 0; i < 10; i++) {
+//     board.addEntity(new ConcreteWall(), i + 2,  i + 2)
+// }
+
 board.render(document.getElementById('frame'))
 
