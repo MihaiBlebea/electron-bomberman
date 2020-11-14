@@ -41,6 +41,39 @@ class Board
         }
     }
 
+    genLevel()
+    {
+        let count = 15
+        let emptyBoxes = this._emptyBoxes()
+
+        for (let i = 0; i < count; i++) {
+            let index    = this._getRandomInt(emptyBoxes.length)
+            let position = emptyBoxes[index]
+
+            this._board[position.x][position.y].addEntity(new BrickWall())
+
+            emptyBoxes.splice(index, 1)
+        }
+    }
+
+    _getRandomInt(max) {
+        return Math.floor(Math.random() * max)
+    }
+
+    _emptyBoxes()
+    {
+        let emptyBoxes = []
+        for (let x = 0; x < this._boardSize; x++) {
+            for (let y = 0; y < this._boardSize; y++) {
+                if (this._board[x][y].isEmpty()) {
+                    emptyBoxes.push({x, y})
+                }
+            }
+        }
+
+        return emptyBoxes
+    }
+
     addEntity(entity, x, y)
     {
         this._board[x][y].addEntity(entity)

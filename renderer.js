@@ -25,6 +25,7 @@ ipcRenderer.on('ping', (event, message) => {
 
 let board = new Board(21)
 
+board.genLevel()
 // Put bricks inside it
 // for (let i = 0; i < 10; i++) {
 //     board.addEntity(new ConcreteWall(), i + 2,  i + 2)

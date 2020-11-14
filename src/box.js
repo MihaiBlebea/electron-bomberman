@@ -44,6 +44,11 @@ class Box
 
         return false
     }
+
+    isEmpty() 
+    {
+        return this._contains.length === 0
+    }
 }
 
 module.exports = Box
