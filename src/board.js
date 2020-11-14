@@ -1,6 +1,7 @@
 const Box          = require('./Box')
 const BrickWall    = require('./BrickWall')
 const ConcreteWall = require('./ConcreteWall')
+const Door         = require('./Door')
 
 class Board 
 {
@@ -43,14 +44,18 @@ class Board
 
     genLevel()
     {
-        let count = 15
         let emptyBoxes = this._emptyBoxes()
+        let count = Math.floor(emptyBoxes.length / 2)
 
         for (let i = 0; i < count; i++) {
             let index    = this._getRandomInt(emptyBoxes.length)
             let position = emptyBoxes[index]
 
             this._board[position.x][position.y].addEntity(new BrickWall())
+
+            if (i === count - 1) {
+                this._board[position.x][position.y].addEntity(new Door())
+            }
 
             emptyBoxes.splice(index, 1)
         }
@@ -116,7 +121,7 @@ class Board
 
                 context.fillStyle = '#fff'
 
-                if (this._board[x][y].hasAnyEntity([new ConcreteWall(), new BrickWall()])) {
+                if (this._board[x][y].hasAnyEntity([new ConcreteWall(), new BrickWall(), new Door()])) {
                     context.fillStyle = this._board[x][y]._contains[0].color
                 }
 
