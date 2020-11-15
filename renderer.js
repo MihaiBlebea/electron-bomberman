@@ -3,6 +3,7 @@ const Board = require('./src/Board')
 const BrickWall = require('./src/BrickWall')
 const ConcreteWall = require('./src/ConcreteWall')
 const Player = require('./src/Player')
+const Enemy = require('./src/Enemy')
 
 // const myNotification = new Notification('Title', {
 //     body: 'Notification from the Renderer process'
@@ -25,7 +26,6 @@ ipcRenderer.on('ping', (event, message) => {
 })
 
 
-
 let board = new Board(21)
 
 board.genLevel()
@@ -36,4 +36,5 @@ board.createCanvas(document.getElementById('frame'))
 board.render()
 
 new Player(playerCanvas)
+new Enemy(playerCanvas)
 
