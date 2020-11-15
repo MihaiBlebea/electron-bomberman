@@ -173,7 +173,7 @@ class Board
                 let startY = y * this._boxSize
 
                 // Initially, wipe clean this box
-                context.fillStyle = "#f3f3f3"
+                context.fillStyle = "#5C9F1D"
                 context.fillRect(startX, startY, startX + this._boxSize, startY + this._boxSize)
                 // context.fillStyle = '#000'
                 // context.fillText(`${x}-${y}`, startX + 10, startY + 10)
