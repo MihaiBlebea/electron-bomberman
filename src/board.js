@@ -16,7 +16,11 @@ class Board
 
     player_y = 1
 
+    player = null
+
     canvas = null
+
+    playerCanvas = null
 
     constructor(boardSize)
     {
@@ -43,10 +47,11 @@ class Board
                 if (x % 2 === 0 && y % 2 == 0) {
                     box.addEntity(new ConcreteWall())
                 }
-
-                if (x === this.player_x && y === this.player_y) {
-                    box.addEntity(new Player())
-                }
+                
+                // if (x === this.player_x && y === this.player_y) {
+                //     this.player = new Player()
+                //     box.addEntity(this.player)
+                // }
 
                 this._board[x][y] = box
             }
@@ -110,15 +115,14 @@ class Board
         return this._boxSize
     }
 
-    move({x, y}) 
+    getPlayer()
     {
-        console.log("moving")
-        this._board[this.player_x][this.player_y].removeEntity('Player')
+        return this.player
+    }
 
-        this.player_x += x
-        this.player_y += y
-
-        this._board[this.player_x][this.player_y].addEntity(new Player())
+    getCanvas()
+    {
+        return this.canvas
     }
 
     createCanvas(anchorElement)
@@ -127,32 +131,59 @@ class Board
         this.canvas.width  = this._boxSize * this._boardSize
         this.canvas.height = this._boxSize * this._boardSize
 
+        this.canvas.style.position = 'absolute'
+        this.canvas.style.top = 0
+        this.canvas.style.left = 0
+
         anchorElement.appendChild(this.canvas)
+
+        return this.canvas
+    }
+
+    createPlayerCanvas(anchorElement)
+    {
+        this.playerCanvas        = document.createElement("CANVAS")
+        this.playerCanvas.width  = this._boxSize * this._boardSize
+        this.playerCanvas.height = this._boxSize * this._boardSize
+
+        this.playerCanvas.style.position = 'absolute'
+        this.playerCanvas.style.top = 0
+        this.playerCanvas.style.left = 0
+        this.playerCanvas.style.zIndex = 100
+
+        anchorElement.appendChild(this.playerCanvas)
+
+        return this.playerCanvas
     }
 
     render()
     {
         let context = this.canvas.getContext('2d')
+        this.buildBoard(context)
+    }
 
+    buildBoard(context) 
+    {
+        // let frameCount = 0
+        
         for (let x = 0; x < this._boardSize; x++) {
             for (let y = 0; y < this._boardSize; y++) {
 
                 let startX = x * this._boxSize
                 let startY = y * this._boxSize
 
+                // Initially, wipe clean this box
+                context.fillStyle = "#f3f3f3"
+                context.fillRect(startX, startY, startX + this._boxSize, startY + this._boxSize)
+                // context.fillStyle = '#000'
+                // context.fillText(`${x}-${y}`, startX + 10, startY + 10)
+
+                // Then render what needs to be rendered inside the box
                 if (this._board[x][y].hasAnyEntity()) {
                     this._board[x][y]._contains[0].render(this.canvas, startX, startY, startX + this._boxSize, startY + this._boxSize)
-                } else {
-                    context.fillStyle = "#FFF"
-                    context.fillRect(startX, startY, startX + this._boxSize, startY + this._boxSize)
-                    context.fillStyle = '#000'
-                    context.fillText(`${x}-${y}`, startX + 10, startY + 10)
-                }
+                } 
             }
         }
-
-        // return this.render()
-        // window.requestAnimationFrame(()=> this.render())
     }
 }
 

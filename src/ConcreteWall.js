@@ -14,15 +14,23 @@ class ConcreteWall extends Entity
         let context = canvas.getContext('2d')
         let box_size = endX - startX
 
-        context.clearRect(startX, startY, endX, endY)
+        let img = new Image()
+        img.src = './assets/concrete.png'
+        img.onload = ()=> {
+            context.drawImage(img,
+                0, 0, 40, 40,
+                startX, startY, 40, 40)
+        }
 
-        context.fillStyle = this.color
+        // context.clearRect(startX, startY, endX, endY)
 
-        context.fillRect(startX, startY, endX, endY)
+        // context.fillStyle = this.color
 
-        context.fillStyle = '#000'
+        // context.fillRect(startX, startY, endX, endY)
 
-        context.fillText(`${startX / box_size}-${startY / box_size}`, startX + 10, startY + 10)
+        // context.fillStyle = '#000'
+
+        // context.fillText(`${startX / box_size}-${startY / box_size}`, startX + 10, startY + 10)
     }
 }
 
