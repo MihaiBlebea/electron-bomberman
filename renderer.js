@@ -3,13 +3,13 @@ const Board = require('./src/Board')
 const BrickWall = require('./src/BrickWall')
 const ConcreteWall = require('./src/ConcreteWall')
 
-const myNotification = new Notification('Title', {
-    body: 'Notification from the Renderer process'
-})
+// const myNotification = new Notification('Title', {
+//     body: 'Notification from the Renderer process'
+// })
 
-myNotification.onclick = ()=> {
-    console.log('Notification clicked')
-}
+// myNotification.onclick = ()=> {
+//     console.log('Notification clicked')
+// }
 
 // Trigger alert
 // const alertOnlineStatus = ()=> { window.alert(navigator.onLine ? 'online' : 'offline') }
@@ -54,5 +54,5 @@ document.addEventListener('keydown', (event)=>  {
     }
 })
 
-board.update()
+board.render()
 

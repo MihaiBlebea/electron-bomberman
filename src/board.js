@@ -112,6 +112,7 @@ class Board
 
     move({x, y}) 
     {
+        console.log("moving")
         this._board[this.player_x][this.player_y].removeEntity('Player')
 
         this.player_x += x
@@ -129,7 +130,7 @@ class Board
         anchorElement.appendChild(this.canvas)
     }
 
-    _render()
+    render()
     {
         let context = this.canvas.getContext('2d')
 
@@ -150,22 +151,8 @@ class Board
             }
         }
 
-        return this.canvas
-    }
-
-    async update()
-    {
-        while (true) {
-            this._render()
-
-            console.log("RUNNING LOOP")
-            await this._sleep(100)
-        }
-    }
-
-    _sleep(ms) 
-    {
-        return new Promise(resolve => setTimeout(resolve, ms))
+        // return this.render()
+        // window.requestAnimationFrame(()=> this.render())
     }
 }
 
