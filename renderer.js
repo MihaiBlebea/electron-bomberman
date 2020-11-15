@@ -12,24 +12,22 @@ myNotification.onclick = ()=> {
 }
 
 // Trigger alert
-const alertOnlineStatus = ()=> { window.alert(navigator.onLine ? 'online' : 'offline') }
+// const alertOnlineStatus = ()=> { window.alert(navigator.onLine ? 'online' : 'offline') }
 
-window.addEventListener('online', alertOnlineStatus)
-window.addEventListener('offline', alertOnlineStatus)
+// window.addEventListener('online', alertOnlineStatus)
+// window.addEventListener('offline', alertOnlineStatus)
 
-alertOnlineStatus()
+// alertOnlineStatus()
 
 ipcRenderer.on('ping', (event, message) => {
     console.log(message) // Prints 'whoooooooh!'
 })
 
+
+
 let board = new Board(21)
 
 board.genLevel()
-// Put bricks inside it
-// for (let i = 0; i < 10; i++) {
-//     board.addEntity(new ConcreteWall(), i + 2,  i + 2)
-// }
 
 board.createCanvas(document.getElementById('frame'))
 
